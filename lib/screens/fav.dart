@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quoteApp/main.dart';
 import 'package:quoteApp/providers/favouriteAdd.dart';
 import 'package:quoteApp/providers/searchService.dart';
+import 'package:quoteApp/screens/search.dart';
 import '../models/apimodel.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,10 @@ class _FavState extends State<Fav> {
   Search? quotes;
 
   var isLoaded = false;
+ TextEditingController editingController = TextEditingController();
+
+
+
 
   void initState() {
     super.initState();
@@ -25,8 +30,8 @@ class _FavState extends State<Fav> {
   }
 
   getData() async {
-    quotes = (await searchService().getQuotes());
-    if (quotes != null) {
+    quotes = (await context.read<searchService>().getQuotes());
+    if (quotes != null) { 
       setState(() {
         isLoaded = true;
       });
@@ -110,7 +115,7 @@ class _FavState extends State<Fav> {
                 ),
                 FloatingActionButton(
                   key: Key('increment_floatingActionButton'),
-                  onPressed: () => context.read<Counter>().increment(),
+                  onPressed: () => context.read<Counter>().increment2(),
                   tooltip: 'Increment',
                   child: Icon(Icons.add),
                 ),
@@ -123,7 +128,7 @@ class _FavState extends State<Fav> {
               child: ListView.builder(
                 shrinkWrap: true,
                 physics: BouncingScrollPhysics(),
-                itemCount: quotes!.results.length,
+                itemCount:context.watch<Counter>().count ,
                 itemBuilder: (context, index) {
                   return Container(
                     height: MediaQuery.of(context).size.height * 0.25,
@@ -181,7 +186,7 @@ class _FavState extends State<Fav> {
 }
 
 class CustomSearchDelegate extends SearchDelegate {
-  List<String> searchTerms = [];
+  List<String> searchTerms = ["Einstein", "Albert"];
 
   @override
   List<Widget>? buildActions(BuildContext context) {

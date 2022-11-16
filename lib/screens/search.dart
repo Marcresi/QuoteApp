@@ -25,7 +25,7 @@ class _SearchState extends State<SearchFul> {
   }
 
   getData() async {
-    quotes3 = (await searchService().getQuotes3());
+    quotes3 = (await context.read<searchService>().getQuotes3());
     if (quotes3 != null) {
       setState(() {
         isLoaded = true;
@@ -110,7 +110,7 @@ class _SearchState extends State<SearchFul> {
                 ),
                 FloatingActionButton(
                   key: Key('increment_floatingActionButton'),
-                  onPressed: () => context.read<Counter>().increment(),
+                  onPressed: () => context.read<Counter>().increment1(),
                   tooltip: 'Increment',
                   child: Icon(Icons.add),
                 ),
@@ -123,7 +123,7 @@ class _SearchState extends State<SearchFul> {
               child: ListView.builder(
                 shrinkWrap: true,
                 physics: BouncingScrollPhysics(),
-                itemCount: quotes3!.results.length,
+                itemCount: context.watch<Counter>().count,
                 itemBuilder: (context, index) {
                   return Container(
                     height: MediaQuery.of(context).size.height * 0.25,
@@ -181,7 +181,9 @@ class _SearchState extends State<SearchFul> {
 }
 
 class CustomSearchDelegate extends SearchDelegate {
-  List<String> searchTerms = [];
+
+  
+  List<String> searchTerms = ["Famous Quotes", "happiness", "wisdom", "life","mahatma gandhi"];
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -211,6 +213,7 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
+
     // TODO: implemet buildResults
     List<String> matchQuery = [];
     for (var tution in searchTerms) {

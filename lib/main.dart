@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:quoteApp/providers/authorService.dart';
 import 'package:quoteApp/providers/counters.dart';
 import 'package:quoteApp/providers/searchService.dart';
 // import 'package:provider_example/providers/counter_provider.dart';
@@ -17,6 +18,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => searchService()),
+        ChangeNotifierProvider(create: (_) => authorService()),
         ChangeNotifierProvider(create: (_) => Counter()),
         // ChangeNotifierProvider(create: (_) => ShoppingCart()),
       ],

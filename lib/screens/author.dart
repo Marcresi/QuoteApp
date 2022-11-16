@@ -25,7 +25,7 @@ class _AuthorState extends State<Author> {
   }
 
   getData() async {
-    quotes2 = (await authorService().getQuotes2())!;
+    quotes2 = (await context.read<authorService>().getQuotes2())!;
     if (quotes2 != null) {
       setState(() {
         isLoaded = true;
@@ -156,8 +156,8 @@ class _AuthorState extends State<Author> {
   }
 }
 
-class CustomSearchDelegate extends SearchDelegate {
-  List<String> searchTerms = [];
+class CustomSearchDelegate extends SearchDelegate with ChangeNotifier {
+  List<String> searchTerms = ["Albert", "Einstein", "George Sand", "Olivier Wendell"];
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -189,7 +189,7 @@ class CustomSearchDelegate extends SearchDelegate {
   Widget buildResults(BuildContext context) {
     // TODO: implemet buildResults
     List<String> matchQuery = [];
-    for (var tution in searchTerms) {
+    for (var tution in searchTerms ) {
       if (tution.toLowerCase().contains(query.toLowerCase())) {
         matchQuery.add(tution);
       }
